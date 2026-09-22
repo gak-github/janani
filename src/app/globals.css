@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Enable class-based dark mode (toggled by adding `.dark` to <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ----------------------------------------------------------------------- */
+/*  Design tokens                                                             */
+/* ----------------------------------------------------------------------- */
+@theme {
+    --color-background: #ffffff;
+    --color-foreground: #0a0a0a;
+    --color-primary: #6366f1;        /* indigo-500 */
+    --color-primary-soft: #a5b4fc;   /* indigo-300 */
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ----------------------------------------------------------------------- */
+/*  Base                                                                      */
+/* ----------------------------------------------------------------------- */
+html {
+   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+   background: var(--color-background);
+   color: var(--color-foreground);
+   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.dark body {
+   background: #05050a;
+   color: #ededed;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+   html {
+      scroll-behavior: auto;
+   }
+   *,
+   *::before,
+   *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+   }
+}
+
+/* Offsets anchored sections so they aren't hidden behind the fixed navbar */
+section[id] {
+   scroll-margin-top: 5rem;
+}
+
+/* ----------------------------------------------------------------------- */
+/*  Scroll-reveal (driven by a small IntersectionObserver client component)    */
+/* ----------------------------------------------------------------------- */
+.reveal {
+   opacity: 0;
+   transform: translateY(24px);
+   transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+   will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+   opacity: 1;
+   transform: translateY(0);
+}
+
+/* A soft, animated gradient used in the hero background */
+@keyframes gradient-pan {
+   0%,
+   100% {
+      background-position: 0% 50%;
+   }
+   50% {
+      background-position: 100% 50%;
+   }
+}
+
+.animate-gradient {
+   background-size: 200% 200%;
+   animation: gradient-pan 14s ease infinite;
+}
+
+/* Subtle floating motion */
+@keyframes float {
+   0%,
+   100% {
+      transform: translateY(0);
+   }
+   50% {
+      transform: translateY(-12px);
+   }
+}
+
+.animate-float {
+   animation: float 6s ease-in-out infinite;
 }
