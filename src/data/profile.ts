@@ -99,7 +99,7 @@ export const profile: Profile = {
 	// TODO: replace with your real email address.
 	email: 'janani.asokumar@example.com',
 	// Employed full-time at PayPal; set to "" to hide the status badge.
-	available: 'Open to new opportunities',
+	available: '',
 	// Set to a PDF in /public (e.g. "/resume.pdf") to enable the button.
 	resumeUrl: '',
 
